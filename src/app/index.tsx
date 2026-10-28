@@ -1,98 +1,125 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Alert,
+  SafeAreaView,
+} from 'react-native';
 
 export default function HomeScreen() {
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <SafeAreaView style={styles.container}>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+      {/* Profile Header */}
+      <View style={styles.header}>
+        <Text style={styles.title}>Group Profile</Text>
+        <Text style={styles.username}>ootd_everyday</Text>
+      </View>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+      {/* Profile Information */}
+      <View style={styles.profileSection}>
+        <View style={styles.avatar}>
+          <Text style={styles.avatarText}>OOTD</Text>
+        </View>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+        <View style={styles.stats}>
+          <Text>53 Posts</Text>
+          <Text>12 Members</Text>
+          <Text>1 Admin</Text>
+        </View>
+      </View>
+
+      {/* Biography */}
+      <View style={styles.bio}>
+        <Text style={styles.bold}>OOTD Everyday</Text>
+        <Text>Fit check!</Text>
+        <Text>You know we'll hype you up.</Text>
+      </View>
+
+      {/* Alert Button */}
+      <Pressable
+        style={styles.alertButton}
+        onPress={() => Alert.alert('Alert Button pressed')}
+      >
+        <Text style={styles.buttonText}>Alert</Text>
+      </Pressable>
+
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+    backgroundColor: '#fff',
+    padding: 20,
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
+
+  header: {
     alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+    marginTop: 20,
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
+
   title: {
-    textAlign: 'center',
+    fontSize: 22,
+    fontWeight: 'bold',
   },
-  code: {
-    textTransform: 'uppercase',
+
+  username: {
+    fontSize: 14,
+    color: 'gray',
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+
+  profileSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 30,
+  },
+
+  avatar: {
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    backgroundColor: '#2196F3',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  avatarText: {
+    color: 'white',
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+
+  stats: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginLeft: 15,
+  },
+
+  bio: {
+    marginTop: 20,
+  },
+
+  bold: {
+    fontWeight: 'bold',
+  },
+
+  alertButton: {
+    backgroundColor: '#E1306C',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 'auto',
+    marginBottom: 20,
+  },
+
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
